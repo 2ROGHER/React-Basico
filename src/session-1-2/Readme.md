@@ -143,11 +143,35 @@ Greeting.propTypes = {
 export default Greeting;
 
 ```
+
+## 2.2 Componentes tipo Contendor
+* Estos  son lso componentes que tienen la logica
+* Estos son componentes de `orden superior`; es decir que estos componente pueden renderizar otros componentes.
+* `Estos se encargan de la logica en si`.
+## 2.3 Componentes puros
+* Estos son lso componentes los cuales solo tienen la funcion de renderizar los elementos `html`, no se ocupan de la logica de aplicaion en si, solo de renederizarlos.
+* Los componentes de este tipo van a recibir los datos en forma de `props` los cuales van a ser pintados
+* `Props`: PUeden ser datos primitivos o datos complejos(Listas, clases etc.)
+## 2.4 Hooks
+## 2.5 Routes
+## 2.6 Pages(views)
+* Estos contienen las vistas  que se van a renderizar en el DOM o que el usuario final los va a aprciar.
+  * `auth`: Login, procesos de autenticacion, logeo etc
+  * `home`
+  * `404`
+  * Estas son carpetas que se van a renderizar como la vista de la aplciacion.
+
+## 2.7 Models
+* Estos son los modelos de la aplicacion `clases, objetos`.
+
+
+## Embede JS en HTML
+## Renderizados codicionales
 ## Nota importante: 
 
 `Cuando se realiza un cambio en le estado de la apiccion se realiza un "rerenderizado" de este componente; es decir de esta manera se puede apreciar la **reactividad** en accion`.
 
-### 2.2 Componentes Funcionales
+### 2.8 Componentes Funcionales
 * Un componente funcinal es una functin de `orden superior` o de `orden superior`, que en cualquier momento pueden devolver elementos `htmls`.
 * En este caso es una funcion, ya no se implementa una clase.
 * Facil de crear componentes funcionales y extremadamente facil de usarlos en los componetes.
@@ -204,13 +228,82 @@ export default GreetingFunctional;
 
 ```
 
-### 2.3 Componentes Stateless
+### 2.9 Componentes Stateless
 * Estos componentes `no tinen estado` en su implementación.
-* 
+
+
+# 3. Hooks en React
+## 3.0 Configuraicones preliminares en VSC
+* `.editorconfig`: Este es un archivo de configuracion de como queremos o como se va a desarrollar en nuestro entorno de desarrollo.
+```txt
+ident_style = tab
+end_of_line = lf -> dependiendo si es mac o windows no hayproblemas en el versionado de git
+insert_final_newline = true
+tab_width = 2 -> tamanio del los tabuladores
+charset = utf-8 -> codificacion de caracteres utf-i
+trim_trailing_whitespace = true -> es para que si dejamos un espacion en cada final de linea nos los configura automaticamente
+```
+
+* Son `funciones` que se incorporaron alla por los anios 2018, que hacen es simplificar o especificar mecanismos para trabajar con componentes `funcionales`, mientras que en las clases son mas complicados implementar componentes, los hooks son caminos para implementar mas facilmente en los con la ayuda de `componentes funcionales`.
+## 3.1 useState()
+* Todos los `hooks` de react comienzan con `use...`
+* Son funciones de que se emplean con componentes `funcionales` que nos van a permitir trabjar,acceder y realizar operaciones con el `estado privdao` del componente.
+
+## 3.2 useRef()
+* Esto es util para identificar elementos y referenciarlos estos elemento dentro de la vista.
+* Esto es similar a lo que usaba el `jquery ` para asociar identificador y extraer el id de este.
+* Con esto es util para saber el contenido de un elemento HTML.
+* `Esto es lo mas parecido a como `js` manipula los atributos del HMTL`
+## 3.3 useEffect()
+* Controla los cambios en la vista y controla  el ciclo de vida del componente
+* Cada vez que hay `cambio  en el componete` se ejecuta el codigo que esta dentro la definicon de useEffect().
+* Sol se puede tener un solo `useEffect()`
+* Si hay mas de uno el ultimo es el qu se toma en cuenta.
+
+```jsx
+    const Ejemplo2 = () => {
+      // sintaxis
+
+      const [contador1, setContador1] = useState(0);
+      const [contador2, setContador2] = useState(2);
+
+      /**
+      * Creamos una referencia con useRef() para asociar
+      * una `variable` con un elemento del  DOM del componente (vista HTML).
+      */
+
+      const ref = useRef();
+
+      useEffect(() => {
+        console.log(" CAMBIO EN EL ESTADO DEL COMPONETE: OJO `ESTAO`");
+        console.log("Mostrando Referencia a elemento del DOM");
+        console.log(ref); // esto contine una referencia aun elemento del DOM(HTML)
+      });
+      return (
+        <div>
+          <h1>*** Ejemplos : useState(), useRef(), useEffect() ***</h1>
+          <h2>Contador 1: {contador1}</h2>
+          <h2>Contador 2: {contador2}</h2>
+          {/* Elemento referenciado va a ser el <h4> */}
+          <h3 ref={ref}>Ejemplo de elemento referenciado</h3>
+          <button onClick={() => setContador1(contador1 + 1)}>Incrementar</button>
+          <button onClick={() => setContador1(contador1 - 1)}>Decrementar</button>
+          <button>Mostrar ref</button>
+        </div>
+      );
+    };
+
+    export default Ejemplo2;
+```
+## 3.4 useContext()
+* Esto es util para utilizar los datos o el contexto de datos para utilizar el contexto para pode pasarlo a los componentes inferiores.
+* Lo que nos facilita es pasar a traves de los componentes `datos` en ves de hacerlo con `props` sino con `useContext`.
+* Estos pueden ser como estados `locales` del componete  sin pensarlo tan explicitamente con `redux.js`.
 
 # Notas
 * Se puede embeder codigo `js` dentro de codigo `html` con `{}` dentro de las llaves.
 * 
+
 
 ## Extensiones importantes
 1. Color highlighting

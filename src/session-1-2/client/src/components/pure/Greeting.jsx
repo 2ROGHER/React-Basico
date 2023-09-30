@@ -22,20 +22,20 @@ class Greeting extends Component {
         <button
           onClick={() => {
             this.setState({
-                count: this.state.count + 1,
-            })
+              count: this.state.count + 1,
+            });
           }}
         >
           Increment
         </button>
         <label htmlFor="">{this.state.count}</label>
         <button
-            onClick={() => {
-                this.setState((prevState, nextState) => ({
-                    count: prevState.count - 1,
-                }))
-            }}
-         >
+          onClick={() => {
+            this.setState((prevState, nextState) => ({
+              count: prevState.count - 1,
+            }));
+          }}
+        >
           Decrement
         </button>
       </div>
@@ -44,11 +44,10 @@ class Greeting extends Component {
 
   // metodo functinal
   birthDay = () => {
-    this.setState((prevState) =>({
-        age: prevState.age + 5
-    }))
-  
-  }
+    this.setState((prevState) => ({
+      age: prevState.age + 5,
+    }));
+  };
 }
 
 Greeting.propTypes = {
