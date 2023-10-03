@@ -3,7 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+/**
+ * Nota: Aqui es donde colocamos BOOTSTRAP para poder usarlo.
+ */
 
+import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/scss/bootstrap'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

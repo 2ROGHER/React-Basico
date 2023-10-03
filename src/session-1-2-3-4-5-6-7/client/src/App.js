@@ -4,6 +4,7 @@ import Greeting from './components/pure/Greeting';
 import GreetingFunctional from './components/pure/GreetingFunctional';
 import TaskList from './components/container/TaskList';
 import Ejemplo3 from './hooks/Ejemplo3';
+import GreetingStyled from './components/pure/GreetingStyled';
 
 
 var name = "Roger";
@@ -23,11 +24,17 @@ function App() {
 
         <TaskList/>
 
-        <Ejemplo3 nombre={"Roger"}>
-        {/* Todo lo queeta aqui dentro es tratado como prop.children */}
+        {/* <Ejemplo3 nombre={"Roger"}>
+          //Todo lo queeta aqui dentro es tratado como prop.children 
+
           <h3>Contenido de props.children</h3>
           <h4>Esto tambine es un prop.children del componete superior</h4>
-        </Ejemplo3>
+        </Ejemplo3> */}
+
+
+
+
+        {/* <GreetingStyled name="roger"/> */}
       </header>
     </div>
   );

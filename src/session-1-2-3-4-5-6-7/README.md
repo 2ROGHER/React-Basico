@@ -300,10 +300,172 @@ trim_trailing_whitespace = true -> es para que si dejamos un espacion en cada fi
 * Lo que nos facilita es pasar a traves de los componentes `datos` en ves de hacerlo con `props` sino con `useContext`.
 * Estos pueden ser como estados `locales` del componete  sin pensarlo tan explicitamente con `redux.js`.
 
+
+# 4. Life Cicle Methods
+# Mounting.
+* Los metodods de vida de los componentes en React.js son aquellas funciones que se encargan de controlar y gestionar `como y cuando` se renderizan estos  componentes en el `DOM`.
+
+
+![Alt text](image-1.png)
+
+## 4.1 ComponenteDidMount()
+* Este es un metodo de vida del componente que se encarga de ejecutar el codigo cuando se `monta` el componente pero `antes` de que se actualice en el `HTML`.
+
+# Updating
+## 4.2 componenteDidUpdate()
+* Cuando sufre un `cambio` en el `estado` o cuando recibe `props` o cuando se ejecuta una funcion `forceUpdate()` que fuerza la actualizacion de la vista.
+* Cuando hay nuevas `props`  se modifican el las props antiguas implica un renderizacion de la vista.
+* Cuando se usa el `metodo` especial `setState()`, se actualiza el estado del componete el cual repercute en la actualización del `DOM` de la vista.
+* Se puede forzar la actualizacion con el metodo `forceUpdate()`
+* Todas estas actualizaciones se realizan sobre el `montaje inicial`, por lo tanto el render necesita una nueva actualizacion
+* ojo el cula es controloado por el metodo `componentDidUpdate()`.
+# Unmounting
+## 4.3 componentWillUnmount()
+* Cuando se quita o cuando se oculta en el `html` los componentes en el `dom` o la vista.
+* Codigo que se ejecuta `antes` de que se quite o oculte el componente de la vista.
+
+
+```jsx 
+
+
+    import React, { Component } from 'react';
+
+    class LifeCycle extends Component {
+
+        
+        constructor(props){
+            super(props);
+            console.log("Instancing the class");
+        }
+
+        componentWillMount() {
+            // WILLMOUNT:  Antes de que se monnte el componente.
+        }
+        componentDidMount() {
+            // DIDMOUNT: Justo acabar el montaje del componente 
+            // pero antes de pintarlo o `renderizarlo` en la vista
+
+        }
+
+        componentWillReceiveProps() {
+            // WILLRECIBEPROPS: Cuando vaya a recibir `props`. por part del padre
+        }
+
+        shouldComponentUpdate(nextProps, nextState) {
+            /**
+            * Controla si el componente debe o no actualizarse.
+            * Se escoje o no actualizar la vista en determinados casos
+            * Si el valor no ha cambiado se escoje actualizar o no la vista en determinado casos
+            */
+            return false;
+        }
+        componentWillUpdate(nextProps, nextState) {
+            // WILLUPDATE: Justo antes de actualizarse, cuando se ha actualizado
+
+        }   
+
+        componentDidUpdate(nextProps, nextProps) {
+            // DIDUPDATE: Justo despues de actualizarse en la vista del html.
+        }
+        componentWillUnmount() { 
+            // WILLUNMOUNT: Justo antes de desaparecer en la `vista` del `html`.
+
+        }
+
+        render() {
+            return (
+                <div>
+                    
+                </div>
+            );
+        }
+    }
+
+    export default LifeCycle;
+```
+
+###  NOTA: Para usar los metodos de ciclo de vida en componentes funcionales se deben `bindear` lo metodos para evitar errores.
+
+### NOTA: Cuando se usa los hooks para los metodos de vida del componete, al colocar un solo `[]` indica que se ejecuta `una sola vez`, mientras implementarlos sin `[]` esto quiere decir que se ejecuta todas la veces.
 # Notas
 * Se puede embeder codigo `js` dentro de codigo `html` con `{}` dentro de las llaves.
 * 
 
+
+## Componente de Clase
+```jsx
+  export class DidMount extends Component {
+
+      componentDidMount() {
+          console.log("Comportamiento antes de que el componente sea aniadido al DOM(renderice)");
+
+      }
+      render() {
+          return (
+              <div>
+                  <h1>*** componentDidMount() ***</h1>
+              </div>
+          );
+      }
+  }
+```
+## Componete Funcional
+```jsx
+  export const DidMount = () => {
+
+      useEffect(() => {
+          console.log(
+                    "Comportamiento antes de que el componente sea aniadido al DOM(renderice)"
+                  );
+      });
+      return (
+          <div>
+              
+          </div>
+      );
+  }
+```
+# 5. Estilos en React.js
+## 5.1 SCSS y sass (preprocesadores de estilos en CSS)
+* Esto nos va a permitir trabajar tanto con `SCSS` o `SASS`
+* `Especificidad`: Podemos definir la especifidad a la hora de aplicar estilos a los elementos de forma mas precisa.
+* Evitar el `!important` en los estilos
+
+`Instalacion de preprocesadores de estilos`
+```bash
+npm install --save node-sass
+```
+* La `herencia` es importante en los estilos
+* El `index.css`es el root o en indice de estilos de CSS.
+* Los estilos son `heredados` y cargados en cada componente.
+
+## 5.2 Bootstrap
+`instalacion` 
+```bash
+  npm install --save-dev bootstrap
+```
+* Tenemos que ir al indece `js` de nuestro proyecto e importar `bootstrap` para que nuestro proyecto pueda usarlo.
+## 5.3 Bootstrap Icons
+* Iconos de la libreria de bootstrap
+
+```bash
+  npm i bootstrap-icons --save
+```
+* Es necesario implementar `funciones` para controlar mas eficientemente los elementos de los componentes.
+
+# 6. Eventos en React.js
+* Los componentes desencadenan eventos los cuales pueden implementar para establecer una comunicacion entre componente de orden inferior  y  superior
+* Generalmente el hijo es quien `despacha el evento` y el padre es el quien controla la `ejecucion del evento`.
+## 6.1 Gestion de Eventos
+* `onFocus`:
+* `onBlur`:
+* `onChange`:
+* `onMouseOver`:
+* `onMouseOut`:
+* `onCopy`
+## 6.2 useRef
+* Este hook nos permite referenciar objetos `html` en react.js
+* Gracias a este hook podemos 
 
 ## Extensiones importantes
 1. Color highlighting
