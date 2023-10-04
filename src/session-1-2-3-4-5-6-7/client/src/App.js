@@ -13,7 +13,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         {/** Aqui pintamos nuestro componete `Greeting.jsx` */}
         {/* <Greeting name={name}/> */}
 

@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { Task } from "../../models/task.class";
 // importamos la hoja de estilo SCSS
 import "../../styles/task.scss";
+
 import toggleOn from '../../assets/svg/toggle-on.svg';
 import toggleOff from '../../assets/svg/toggle-off.svg';
 import trash from '../../assets/svg/trash.svg';
 import { LEVELS } from "../../models/levels.enum";
 
-const TaskComponent = ({ task }) => {
-  console.log(task);
+const TaskComponent = ({ task, complete, remove }) => {
 
   useEffect(() => {
     console.log("Task created");
@@ -19,23 +19,30 @@ const TaskComponent = ({ task }) => {
   }, [task]);
 
   function taskLevelBadge() {
+    
     switch (task.level) {
       case LEVELS.NORMAL:
         return (
           <h6 className="mb-0">
-            <span className="badge bg-primary">{task.leve}</span>
+            <span className="badge bg-primary text-bg-primary">
+              {task.level}
+            </span>
           </h6>
         );
       case LEVELS.URGENT:
         return (
           <h6 className="mb-0">
-            <span className="badge bg-warning">{task.leve}</span>
+            <span className="badge bg-warning text-bg-primary">
+              {task.level}
+            </span>
           </h6>
         );
       case LEVELS.BLOCKING:
         return (
           <h6 className="mb-0">
-            <span className="badge bg-danger">{task.leve}</span>
+            <span className="badge bg-danger text-bg-primary">
+              {task.level}
+            </span>
           </h6>
         );
       default:
@@ -47,34 +54,61 @@ const TaskComponent = ({ task }) => {
     }
   }
    return (
-    <tr className="fw-normal">
-      <th>
-        <span className="ms-2 task-name">{task.name}</span>
-      </th>
-      <td className="align-middle">
-        <span>{task.description}</span>
-      </td>
-      <td className="align-middle">
-        {/* //TODO: sustituir badge */}
-        {taskLevelBadge()}
-        <span>{task.level}</span>
-      </td>
-      <td className="align-middle">
-        {/* //TODO: sustituir por iconos */}
-        {task.completed ? (
-            <img src={toggleOn} alt="" />
-        ) : (
-            <img src={toggleOff} alt="" />
-        )}
-        {/* <span>{task.completed ? "Completed" : "Pending"}</span> */}
-        <img src={trash} alt="" />
-      </td>
-    </tr>
-  );
+     <tr
+       className={
+         task.completed
+           ? " fw-normal task-completed"
+           : " fw-normal task-pending"
+       }
+     >
+       <th>
+         <span className="ms-2 task-name">{task.name}</span>
+       </th>
+       <td className="align-middle">
+         <span>{task.description}</span>
+       </td>
+       <td className="align-middle">
+         {/* //TODO: sustituir badge */}
+         {taskLevelBadge()}
+         {/* <span>{task.level}</span> */}
+       </td>
+       <td className="align-middle">
+         {/* //TODO: sustituir por iconos */}
+         {task.completed ? (
+           <img
+             onClick={() => {
+               complete(task);
+             }}
+             src={toggleOn}
+             alt="toggle-on"
+             className="task-action"
+           />
+         ) : (
+           <img
+             onClick={() => {
+               complete(task);
+             }}
+             src={toggleOff}
+             alt="toggle-off"
+             className="task-action"
+           />
+         )}
+         {/* <span>{task.completed ? "Completed" : "Pending"}</span> */}
+         <img
+           onClick={() => remove(task)}
+           src={trash}
+           alt=""
+           style={{ cursor: "pointer" }}
+         />
+       </td>
+     </tr>
+   );
 };
 
 TaskComponent.propTypes = {
-  task: PropTypes.instanceOf(Task),
+  task: PropTypes.instanceOf(Task).isRequired,
+  complete: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
 };
 
 export default TaskComponent;

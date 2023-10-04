@@ -3,3 +3,36 @@
     font-family: "Poppins";
     color: cadetblue
 }
+
+.task-action {
+    cursor: pointer;
+}
+.task-completed {
+    color: #ddd;
+    text-decoration: line-through;
+}
+.task-pending {
+    font-weight: 700;
+    color: tomato;
+}
+
+.btn-add-form {
+    border: none;
+    background: #a1c5e9;
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: .5rem;
+    color: #fffddd;
+    font-family: "Poppins";
+    font-weight: 600;
+
+}
+.error {
+    color: #f28080;
+    font-weight: 700;
+    
+}

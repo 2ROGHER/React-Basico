@@ -14,7 +14,9 @@ const loggedStyle = {
 
 // Estilos para el usuario no logeado.
 const unloggedStyle = {
-  color: "tomato",
+  background: "tomato",
+  color: "white",
+  fontWeight: '600'
 };
 
 const GreetingStyled = (props) => {

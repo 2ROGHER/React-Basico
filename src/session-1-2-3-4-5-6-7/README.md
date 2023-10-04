@@ -465,14 +465,193 @@ npm install --save node-sass
 * `onCopy`
 ## 6.2 useRef
 * Este hook nos permite referenciar objetos `html` en react.js
-* Gracias a este hook podemos 
+* Gracias a este hook podemos obtener los artributos y valores de un elemento html referenciado. 
+
+example: 
+
+```jsx
+    import React, { useRef } from "react";
+
+    const Child = ({ name, func, update }) => {
+
+      const messageRef = useRef('');
+      const nameRef = useRef('');
+      
+      const pressButton = () => {
+        // Uso de ref
+        const text = messageRef.current.value;
+        alert("Pressing a ", text);
+      };
+
+      const pressButtonParams = (text) => {
+        console.log(`Text: ${text} and the name is ${name}`);
+      };
+
+
+        const submitForm = (e) => {
+            // prevenimos que el form recargue la pagina por defecto
+            e.preventDafault();
+            update(nameRef.current.value);
+        }
+      return (
+        <div style={{background:'#fff1fe'}}>
+          <h3>Child component</h3>
+          <div>
+            <button onClick={() => console.log("Boton pulsado 1")}>Button 1</button>
+            <button onClick={pressButton}>Button 2</button>
+            <button
+              onClick={() => {
+                pressButtonParams("Fiorela");
+              }}
+            >
+              Button 3
+            </button>
+            <input
+              type="text"      
+              placeholder="Insert any text"
+              onFocus={() => console.log("Focussing in the element")}
+              onChange={(e) => console.log(`Input change`, e.target.value)}
+              onBlur={() => console.log("on Bluring")}
+              onCopy={() => console.log("Inserted text copied")}
+              ref={messageRef}
+            />
+            <button onClick={() => func(messasageRef.current.value)}>Send Message</button>
+            <div onMouseOver={() => console.log("You are in the field")}></div>
+
+            {/*Formulario */}
+
+            <div style={{marginTop: "20px", background: '#b0eaf1'}}>
+                <form onSubmit={submitForm}>
+                    <input ref={nameRef} type="text" name="" id="" placeholder="new-name"/>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    export default Child;
+
+```
+# 7. Estados en React.js
+* Los estados de react son inmutables, se pueden actualiar haciendo copias utilizando funciones de `referenciado` para poder copias el dato y hacer reemplazos
+
+# 8. Depuracion de codigo 
+* No confundir dos conceptos muy inmportantes
+* `Testing` != `Depuracion`
+
+1. `Testing`: Se centraen buscar el problema o los errores que se puedan haber saltado bajo ciertos casuiticas y poder encontrar un metodo o metologias para poder resolver dichos errores.
+* Encontrar diferentes casuisticas que podriaan rompoer nuestro codigo y asegurar que es suficientemente robusta para superar las mismas. 
+* Con lo cual se resuelven todas esas casuisticas que podrian originar el error, con lo cual se pueden controlar mucho mas lo errores para que `el usuario` no se percate de que existen esos errores.
+* Se realizan `automatizaciones` para que se ejecuten automaticanete.
+* Existe una libreria para ayudarnos a hacer `testing`
+
+* `Pruebas unitarias/integracion`
+* `Pruebas funcionales`
+
+2. `Depuracion`: Se encarga de resolver `Errores`
+* Es un tarea esencial de cualquier desarrollador
+* Verificar errores en tiempo de ejecucion
+* Es necesario pararlo y encontrar el error en tiempo de ejecucion
+* La depuracion es `universal` no existe librerias para ello.
+
+## 8.1 Depuracion en devtools de Chrome
+
+* Busca eleminar los `logs` o `alerts` que luego se quedan y llenan de infomacion innecesaria en la salidaa de consola.
+
+* `||`: esta pestana nos sirve para hacer una pausa o detener la depuracin del coidig
+* `stepover`: Con este podemos saltaar a la siguente llamanda de la function
+* `stepinto`: con esto vamos inmediatamente dentro del function a evaluar.
+* `steep`: con esto saltamos al siguiente `breakpoint`
+
+![Alt text](image-2.png)
+
+* La `linea de ruptura (breakpoint)` indica que vamos a parar la ejecucion en ese punto determinado
+
+* `watcher`: colocar que es lo que queremos ver cual es su valor de una variable, propiedad o funcion el cual queremos estar observando o inspeccionando.
+
+
+# 9. Buenas Practicas con React.js
+* CAda componente de en React.js tienen sus propias m-v-c
+
+## 9.1 MCV
+### 9.1.1 Controlador
+* Basicamente interacuta entre el modelo(informacion) y la vista.
+* Tenemos un controlador para cada una de las pequenias vistas
+* Actualiza el modelo
+* Cada uno de los `jsx` tiene un controlador
+* El controlador envia los datos (modelos) a la vista.
+* Controladores, metodos del ciclo de vida
+* JS
+* Los controladores son los que solicitan los datos a otros fuentes de datos.
+* Gestiona la informacion, `actualizar o leer` del modelo los datos que se tienen que pintar en la vista.
+* El controlador hace las peticiones o solicitudes a APIs externas o desde fuera. Aqui es donde se coloca la logica para realizar la tarea.
+
+
+### 9.1.2 Vista
+* return- return- jsx
+* html o jsx puro
+* Es aquella vista el usuario final tiene la posibilidad de interectuar o poder trabajar con el
+* Es atra vez de la vista que el usuario recibe esos `datos`
+* Parte visual que tendra el usuario para interactuar
+* Estos son los componentes con los que el usuario va a interactuar.
+* `pages`=== `views`
+* La vista nos va a permitir la navegacion entre las diferentes vistas.
+
+### 9.1.3 Modelo
+* Inofromacion o datos de sistema
+* Datos del modelo
+* Clase 
+* Trabaja con el modelo
+* Estado de los componentes
+* La informacion
+* Listas, props, stados, tipos de datos, 
+* Pueden estar fuera del componente en una API REST 
+* Estodos del componente o estados de la aplicacion
+* Es el quien persiste o tiene los datos del componente
+
+eg: 
+![Alt text](image-3.png)
+
+* Componentes tipo `paginas`
+* Un componente contenedor lo que hace es englobar un componente puro internamente para pasarle deterinada informacion  y determinada logica.
+* Una vista puede englobar o anidar varios componentes tipo `contenedor`.
+
+# 10. Renderizado Condicional en React.js
+```txt
+La idea de las paginas web es que el usuario pueda interectuar con ellas
+```
+* Esta es la forma en como nosotros podemos pintara `renderizar componentes` selectivamente, esta es la magia de `reactivo`.
+* Todo aquello en el que se implemente la `logica` es un renderizado condicional
+* `Uso de ? - &&`: Estos son operadores importantes que nos permiten realizar operaciones mas eficientes y con menos lineas de codigo.
+* El uso del operador ternario es el mas utilizado en React.js
+
+# 11. Formularios
+* Todo formulario tiene un evento `onSubmit` que ejecuta alguna funcion para enviar los datos al servidor.
+* `Yup`: Constructor de esquemas para construir validacines potenetes
+* `Formik`: Es una libreria potente para crear formularios dentro de react.js
+
+instalacion
+```bash
+  npm install --save formik yup
+```
+* Validar un fomulario por medio de `esquemas se hace mediante` el atributo `validationSchema` el cual se asocia al esquema creado.
+* `Local Storage`: Este es el alamacenamiento en donde los datos `persisten` permanentemente en el navegador
+* `Sesion Storage`: Este es el almacenamiento en donde los datos `persisten` solo hasta que cumpla una `sesion ` completa en el navegador.
+
+# Notas importantes: 
+* Evitar el uso de estados privados en componente mas pequenios `puros`.
+* La `funcionalidad` para la que se va a usar el un determinado componente es lo que lo diferencia del resto de componentes.
+* Los comonentes tambien pueden pasar a componentes internos `hojas de estilo css`.
+
+
 
 ## Extensiones importantes
 1. Color highlighting
 2. Debbuger for firefox
 3. ES7 React/Redux/GraphQL/React-Native snippets.
 4. ESLintO(cotrola las reglas y com se debe programas con ES6 en js)-> marcar un estandar de programacion a lahora de desarrollar.
-
 5. Firebase
 6. Image preview
 7. Jest
