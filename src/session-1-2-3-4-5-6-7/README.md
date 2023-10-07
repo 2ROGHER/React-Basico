@@ -640,12 +640,513 @@ instalacion
 * `Local Storage`: Este es el alamacenamiento en donde los datos `persisten` permanentemente en el navegador
 * `Sesion Storage`: Este es el almacenamiento en donde los datos `persisten` solo hasta que cumpla una `sesion ` completa en el navegador.
 
+# 12. Sistema de Enrutamiento en React.js
+* `react-router-dom`
+* El sistema de enrutamiento nos permite mostrar o no mostrar las vistas en funcion de las rutas
+* Las rutas son direcciones de 'url' que nos permiten mostras determinadas vistas
+* Este es un modulo de enrutados para trabajar con vistas en html
+* `Hooks utiles de react-router-dom`:
+  * `useHistory()`: Nos permite navegar entre el historial de navegacion de las rutas.
+  * `useLocation()`: Esto nos permite determinar en que rutas estamos en un determinado momento en la vista.
+  * `useParams()`: Este hook nos permite capturar un parametro que se pasa por la `URL`.
+* Un buen refactor seria guardar las funciones de navegacion en carpetas de `utils` por ejemplo
+
+```bash
+  npm install --save react-router-dom
+```
+## 12.1 Pasar props entre las rutas
+* Como paso datos o informacion entre las rutas.
+
+# 13. MUI
+* Esta es una libreria potente que nos permite implementar componentes de alta calidad, rapido potente.
+
+instalacion
+```bash
+  npm install --save @mui/material @emotion/react @emotion/styled
+  
+  # instalacion de iconos de material icons
+  npm install -save @mui/icons-material
+```
+## 13.1 CLSX
+* Es una herramienta para trabajar con estilos en forma de objetos y agregarlo a los hojas de estilo
+* Es una forma de jsx pero para los nombres de clase. 
+* No se ha implementado en esta session - solo se instalo.
+
+instalacion
+```bash
+  npm install --save clsx
+```
+
+# 14. Asincronizmo y Promesas
+* Es aquel proceso que toma un poco de tiempo.
+* Es util para realizar peticiones a recursos externos que toman tiempo a la hora de ejecutar peticiones.
+* `await`: Es una forma de asegurar el control sobre las funciones asyncronas. Esto genera un punto de reptura que es el control del operaciones asyncronas.
+* `La promesa`: Es aquel valor futuro que se va a obtener de algun proceso asyncrono
+  * Este es un tipo de dato creado para poder gestionar en js para `gestionar` procesos asyncronos.
+  * Gestiona de forma mas rapida todo lo que seria la representacion de un objeto que se va a `completar` o `fallar`.
+  * La clase `Promise` se usa para generar promesas.
+  * Hasta que una promesa no se `resuelva` no podemos obtener el valor que  genera este mismo.
+  * Antiguamente las promesas o los procesos `asynchronously` se trataban con `callbacks` anidados.
+
+La promesa se utiliza para trabajar con procesos asyncronos.
+* Todas las funciones asyncronos `se deben gestionar como promesas`.
+
+eg: 
+
+```jsx
+  import React from "react";
+
+    const AsyncExample = () => {
+      async function generateNumber() {
+        return 1;
+      }
+
+      function obtainNumber() {
+        generateNumber().then((res) => alert(`Response: ${res}`));
+      }
+
+      async function generatePromiseNumber() {
+        // aqui le decimos estrictamente qeu este es una promesa.
+        return Promise.resolve(2);
+      }
+
+      function obtainPromiseNumber() {
+        generatePromiseNumber
+          .then((res) => alert(`Response: ${res}`))
+          .catch((err) => alert(`Somethin went wrong: ${err}`));
+      }
+        
+
+      async function saveSessionStorage(key, value) {
+        sessionStorage.setItem(key, value);
+        // con esto le decimos que devuelva una promesa en cuanto termine de realizar el proceso
+        // asyncronico.
+        return Promise.resolve(sessionStorage.getItem(key));
+      }
+
+
+      function showStorage() {
+        saveSessionStorage("name", "Roger")
+          .then((res) => alert(`Response: ${res}`))
+          .catch((err) => alert(`Error: ${err}`))
+          .finally(() => console.log("Name saved and retrevied successfuly"));
+      };
+
+      const returnError = async () => {
+        await new Promise((resolve, reject) => {
+            reject(new Error(`Oooops!.`))
+        })
+      };
+
+      const consumeError = () => {
+        returnError()
+            .then((res) => alert(`All was success ${res}`))
+            .catch((err) => alert(`Something went wrong` + err))
+            .finally(() => alert(`Finally asynchronous process`));
+
+      };
+
+
+      const urlNotFound = async () => {
+
+        try {
+            let response = await fetch(`https://invalidURL`);
+            alert(`Response:  ${JSON.stringify(response)}`);
+        } catch (error) {
+            alert(`Something went wrong with your URL: ${error}`)
+        }
+      };
+      async function obtainMessage() {
+        let promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("Hello world!");
+            }, 2000);
+        });
+
+        let message = await promise;
+        await alert(`Message received: ${message}`);
+      };
+
+      const multiplePromise = async () => {
+
+        let result = await Promise.all(
+            [
+                fetch('https://reqres.in/api.users'),
+                fetch('https://reqres.in/api/users?page=2')
+            ]
+        )
+        .catch((error) => alert(`Something went wrong with your URLs: ${error.message}`));
+      }
+      return (
+        <div>
+          <button onClick={obtainNumber}>Obtain number</button>
+          <button onClick={obtainPromiseNumber}>Obtain promise number</button>
+          <button onClick={showStorage}>Show storage</button>
+          <button onClick={obtainMessage}>Obtain promise message</button>
+          <button  onClick={consumeError}>Consume Error</button>
+          <button onClick={urlNotFound}>Request  HTTP</button>
+          <button onClick={multiplePromise}>Get all Promises</button>
+        </div>
+      );
+    };
+
+    export default AsyncExample;
+```
+* Ciclo de vida de las promesas.
+
+## 14.1 Observables 
+![Alt text](image-5.png)
+
+
+* Con los `observables` podemos devolver valores o un conjunto de valores(`observables o generadoras`)
+
+* En caso de que se devuelva un `unico` valor se pueda `usar las promesas` para gestionar el error
+* Para el caso de `valores multiples` se pueden usar las `generadores` para gestionar estos valores.
+* Valores unicos -> `promesas` -> sincronico
+* Valores multiples -> `generadores` -> asyncronico
+
+instalacion`
+
+```bash
+  npm install --save rxjs
+```
+* Se pueden aplicar los principios de `OBSERVABLES`  de la programacion.
+
+# 15. Peticiones HTTP
+* Las peticiones http nos permiten realizar peticiones a  contenidos externos a traves metodos HTTP.
+* Se puede inpeccionar el resultado de las peticiones http en la consola de `Network`.
+
+![Alt text](image-6.png)
+
+* Es  una alterntiva mucho mas eficiente realizar peticiones y solicitudes HTTP con `axios`.
+* El endpoint que usamos es el de link: https://reandomuser.me/api/
+* El endpoint que usamos para el fetch es. Link: https://reqres.in/api/users/
+* Ejeplo de como realizar configuraciones avanzadas en `axios`.
+```js
+    import axios from 'axios';
+
+    // default config for AXIOS
+    export default axios.create(
+        {
+            baseURL: 'https://randomuser.me/api', // en el file axiosService le agregaamos un '/' para la peticion.
+            responseType: 'json',
+            timeout: 5000, // habra un a fallo si no hay respuesta en 5 segundos
+            method: 'GET',
+        }
+    );
+
+```
+
+## 15. 1 Token 
+
+* Es un mecanismo de autenticacion de usuario por `sesion`.
+* Existen diferentes formas de autentificar
+* El mas extendido y el mas usado es `JWT`
+* Nos permite comprobar si la sesion esta activa
+* Quien es el usuario y ademas guarda una informacion privada de la validacion de ese autenticacion para ese usuario.
+* Con cada peticion el `back-end` necesita verficar el `token ` que se le envia por el header en cada peticion.
+* Es un cifrado un hash que se genera con una funcion matematica concreta.
+* Es una identificacion de un valor
+* Despues de hacer el login lo ideal es guardar los datos en `Session Storage del navegador`.
+* `Desplegar`: Es el termino informatico que se usa para referirce al renderizado de un proyecto en el navegador.
+
+# 16 Gestiones de Estado en React.js
+## 16.1 Redux
+* Es un gestor de estados de react.js  o gestor de informacion compartida a lo largo de la aplicacion entre los componentes
+* Este fuerza la actualización del estado mediante `reducer`
+* Los estado en `redux ` son inmutables
+* `reducer`: Se encargan de generar nuevos estados a partir de `despachar` ciertas `acciones` desde diferentes  componentes.
+* Redux busca organizar los estados de forma, organizado y gestion de manera controlodo y eficiente
+* Los componentes de orden superior son los que despacharan las acciones que seran escuchadas por los reducers que son son funciones `puras`, los cuales generan un nuevo estado a partir de un `accion` y un `payloa(contenido)`.
+* Este `estado` es actualizado con los `acctions` y el `payload` y todos los componetes que lo escuchan quedan replicados o se les replica la informacion para que ests actualicen la vista o cualquier otro caso.
+* Redux.js se creo para resolver el problema de gestion de estado, para facilitar la gestion de estados en el que un componente muy esta muy por encima del hijo o el hijo esta muy por debajo del padre o en niveles de mas profundos. Esto problema no es un buena forma de comunicar los componente. 
+* Redux soluciona este problema de forma sencilla, controlado, y eficiente.
+
+## 16.2 Componentes de Redux.js
+### 16.2.1 Store
+* Son estados pequenios o grandes que esten relaciones entre si o que cumplen un determinado rol
+* Mantiene el estado generico para que los componentes puedan acceder a el
+* El `store` es aquel conjunto que guarda o engloba todos los estados *`locales`* por asi decirlo y luego genera un estado `global` es si que escucha a las acciones de los componentes para poder comunicarse con ellos.
+
+### 16.2.2 Reducer
+* Es un conjunto de funciones qu estan compuestos por  un `estado inicial` y que apartir de acciones devuelven un `estado` nuevo
+* ES una function con `switch-case`
+* Este esta `escuchando` ante las `acciones` que puede realizar un determinado componente el cual `despacha` estas acciones al reducer.
+* Este es la funcion que escucha a las acciones de que `despachan los componentes`
+* Atravez del `payload` que contiene la `accion`enviada el `reducer` evalua la accion y a partir de ello genera un nuevo estado para dicho componente.
+* 
+### 16.2.3 Actions
+* Las acciones son objetos que contienen un `tipo` y `payload`
+* `tipo`: es un `string`
+* `payload`: es cualquier tipo de dato.
+* Los componentes lanzan o `despachan` acciones que el `rootreducer`, este las escucha que es gestionada por el `switch-case` que viene con las `actions`, el reducer evalua esta accion con el type y el payload y aparti de ello genera un nuevo `estado` para esa `action` en especifo. Una vez hecho esto, el coponente `actualiza la vista` con el nuevo estado genrado por el `reducer`.
+
+eg:
+![Alt text](image-7.png)
+
+primeros pasos.
+
+```bash 
+  $ npm i react-redux redux #estos so los dos principales dependencias para trabajar con Redux.js
+  $ npm i --save-dev redux-devtools-extension # es importante instalar esta dependencia solo a modo de desarrollo, no de produccion.
+
+```
+* `composeDevTools`: es una funciona que nos permite visualizar en formato JSON todo el `estado` de la aplicacion.
+Nota importante:
+Se pueden realizar `dispatchs` con la herramienta de `devTools` de chrome.
+
+### 16.2.4 Comunicaciones entre componentes con Redux.js
+* `Containers`: Son los que van a tener la tarea de comunicar a los componentes mas pequieios y tener el acceso a la ligica en si de la app.
+
+partes: 
+
+```jsx
+    // Es un componente funcional normal
+  import React from 'react'
+  import { connect } from 'react-redux'
+  import TodoList from '../pure/TodoList'
+
+  export const TodoContainer = (props) => {
+    return (
+      <div>TodoContainer</div>
+    )
+  }
+  /*
+  * Este es metodo propio de redux que nos permite enviar el estado global
+  * al las props del componente al cual esta conectado (<TodoList/>)
+  */
+  const mapStateToProps = (state) => ({}) 
+
+  /*
+  * Este un metodo de redux que nos va a permitir enviar los metodos/ funciones de `despacho`
+  * de acciones a las props del componente al cual esta conectado.
+  */
+  const mapDispatchToProps = {}
+
+  export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+
+```
+![Alt text](image-8.png)
+
+# 17. Gestion de estados `globales` ASINCRONOS
+* Serie de menanismos que nos permiten controlar las peticiones asincronos.
+## 17.1 Sagas
+* Esta es una alternativa que nos permite atravez de funcioens generadoras nos permiten controlar las `asincronia`, ello nos permite gestionar la ejecuicon de determinadas  tareas en `segundo  plano`, mientas que se van gestionando para capturar diferentes `acciones`.
+
+### 17.1.1 Watcher
+* Este es una funcion generadora, que va a estar escuchando o buscando determinadas `peticiones` o tipos de `acciones` que estara escuchando por el watcher-sga, una vez  que los optiene lo recibe y lo gestiona la emicion de un `worker` 
+
+### 17.1.2 Worker
+* Esta es la funcion que `realmente` realiza la tarea asincrona peticion http, se gestiona la promesa y es cuando se resuelve,es entonces que a travez de un metodo concreto se ejecutara una nueva accion `despachara` con la accion que realmente el reducer va a captura, este atualizara el estado de la app, y con ello se actualizara la vista de esta misma.
+* Este es un tipo de middleware, que se ponde delante del reducer y el `dispatch de acciones` para las operaciones `asincronas`.
+* otra alternativa es `redux-thunk`.
+
+primeros pasos para trabajar con `saga`: 
+
+```bash
+  $ npm install --save redux-saga
+  # otra opcion mas facil
+  $ npm install --save redux-thunk
+```
+
+
+
+# 18. Gestion de estados globales mediante Hooks
+* Esta es una alternativa para gestionar los estados globales mediante hooks.
+
+## 18. 1. useContext():
+* Nos sirve pasar el estado de de un componente hacia un componente inferior que se pasa como contexto que simplifica la gestion de estados globales.
+* Este es el hook que se usa para pasar los estados globales a traves del contexto de la aplicacion
+
+## 18.2. useReducer()
+* Este es un hook importante para trabajar con estados globales
+* Este nos permite pasar los estados globales a traves de la llamada de ciertas funciones
+* Tambien este hook nos sirve para simular el trabajo de redux con la gestion de estados globales.
+* Es una alternativa o solucion para sustituir el gestado global de los estados globales de la aplicacion
+* Con este hook, nos permite obviar toda la logica del uso de `redux.js` en la gestion de estados globales de la app.
+
+* Nos sirve para almacenar estados `globales` de un componente para tal como un `useState()`.
+  - Esto los que hace es asociar una function que en este caso seria nuestro `reducer`
+  - Nos devuelve un array que contiene el valor del estado global actualizado y una `funcion` que se va a encargar de `gestionarlo`
+  - cada `estado` esta asociado a un unico `rootReducer`.
+* `Redux.js`: es mas complejo, requiere tener una arquitectura de aciones mas precisas
+nota: 
+- para aplicaciones mas robustas es impresindible usar `redux.js`;
+Ventajas
+- No permite simplificar la gestion de estados globales de la app
+- Si las versiones de librerias de terceros cambia, la gestion de estados con hook no se vera afectado, dado que viene con la libreria de  react. 
+- Con este hook tenemos mas control sobre los estados de la aplicacion.
+- Para applicacones mas pequenias es mas util simular `redux.js` con los hooks de `react`;
+
+## 18. 3. useDispatch()
+* ESte hook nos sirve para despachar acciones hacia el reducer para realizar ciertas modificaciones o actulaizaciones en el estado.
+
+
+ejemplo final: 
+
+```jsx
+import React, { useReducer } from "react";
+
+// Actions
+const FIELD = "FIELD";
+const LOGIN = "LOGIN";
+const SUCCESS = "SUCCESS";
+const ERROR = "ERROR";
+const LOGOUT = "LOGOUT";
+
+// estado inicial de la app
+const initialState = {
+  username: "",
+  password: "",
+  error: "",
+  isLoading: false,
+  isLoggedIn: false,
+};
+
+// Functio que va a ser nuestro reducre
+const loginReducer = (state, action) => {
+  switch (action.type) {
+    case FIELD:
+      return {
+        ...state,
+        [action.fieldName]: action.fieldName,
+      };
+    case LOGIN:
+      return {
+        ...state,
+        error: "",
+        isLoading: true,
+        isLoggedIn: false,
+      };
+
+    case SUCCESS:
+      return {
+        ...state,
+        error: "",
+        isLoading: false,
+        isLoggedIn: true,
+      };
+    case ERROR:
+      return {
+        ...state,
+        error: `Invalid username or password`,
+        isLoading: false,
+        isLoggedIn: false,
+        username: "",
+        password: "",
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        error: "",
+        isLoading: false,
+        isLoggedIn: false,
+        username: "",
+        password: "",
+      };
+
+    default:
+      return state;
+  }
+};
+const LoginUseReducer = () => {
+    
+  const [state, dispatch] = useReducer(loginReducer, initialState);
+  // obtain all variables from state
+  const { username, password, error, isLoading, isLoggedIn } = state;
+
+  // submit
+  const submit = async (e) => {
+    e.preventDefault();
+
+    // dispatch login action
+    dispatch({ type: LOGIN });
+
+    try {
+      await function login({ username, password }) {
+        return Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (username === "admin" && password === "admin") {
+              resolve();
+            } else {
+              reject();
+            }
+          }, 2000);
+        });
+      };
+      dispatch({ type: SUCCESS });
+    } catch (error) {
+      dispatch({ type: ERROR });
+    }
+  };
+
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
+
+  return (
+    <div className="App">
+      <div>
+        {isLoggedIn ? (
+          <div>
+            <h1>
+              Wellcome, {username}
+              <button onClick={logout}>Logout</button>
+            </h1>
+          </div>
+        ) : (
+          <form onSubmit={submit}>
+            {error && <p style={{ color: "tomato" }}>{error}</p>}
+            <input
+              type="text"
+              placeholder="username"
+              id="username"
+              value={username}
+              onChange={(e) =>
+                dispatch({
+                  type: FIELD,
+                  fieldName: "username",
+                  payload: e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="password"
+              id="password"
+              value={password}
+              onChange={(e) =>
+                dispatch({
+                  type: FIELD,
+                  fieldName: "password",
+                  payload: e.target.value,
+                })
+              }
+            />
+
+            <button type="submit">{isLoading ? "Logging" : "Login"}</button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default LoginUseReducer;
+
+```
+
 # Notas importantes: 
 * Evitar el uso de estados privados en componente mas pequenios `puros`.
 * La `funcionalidad` para la que se va a usar el un determinado componente es lo que lo diferencia del resto de componentes.
 * Los comonentes tambien pueden pasar a componentes internos `hojas de estilo css`.
+* `react-dom`: nos permite interactuar con el `DOM` html en nuestro proyecto.
+* Si estamos trabajando con TypeScript debemos instalar la dependencia correcta para las rutas.
+![Alt text](image-4.png)
+* La mejor forma de enrutar es  que `las rutas siempre deben estar dentro del App.js file`.
 
-
+* La carpeta `config` de redux se usa para configuarar el `store` de redux.
 
 ## Extensiones importantes
 1. Color highlighting

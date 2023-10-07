@@ -11,7 +11,7 @@ import React, { useContext } from 'react';
  * @returns 
  */
 
-// Definmoel contexto del componente
+// Definmos el contexto del componente
 const miContexto = React.createContext(null);
 
 const Componente1 = () => {
@@ -19,10 +19,13 @@ const Componente1 = () => {
     // del contexto del padre.
     // LA IDE A ES TRASNMIRIT EVENTOS A TRAVES DE COMPONENTE SIN PROPS SINO CNO EL USO DE CONTEXTO'
 
+    // aqui usamos un estado que se pasa por contexto del componente padre
+    // en este caso el `state` ya contine todos los datos de `sessionData`
     const state = useContext(miContexto);
 
     return (
         <div>
+        {/* // este componente hereda el estado 'token' del componente padre */}
             <h1>El token es: {state.token}</h1>
             <Componente2/>
         </div>
@@ -35,6 +38,7 @@ const Componente2 = () => {
 
     return (
         <div>
+            {/* // Este componente hereda y muestra el estado 'session' del componente padre */}
             <h2>La sesion es: {state.sesion}</h2>
         </div>
     );
@@ -69,6 +73,7 @@ const MiComponenteConContexto = () => {
     return (
       // ahora lo que hacemos es proporcioanar un contexto a todos los componentes
       // que estan por debajo de este componente padre.
+      // Esta es la forma en como se pasa un contexto a todos los componentes inferiores de mi app
       <miContexto.Provider value={sessionData}>
         {/* Todo lo que este aqui dentro puede leeer lo dato de sessionData.
         Ademas si se actualiza , los componete de aqui tambien lo actualizan. */}

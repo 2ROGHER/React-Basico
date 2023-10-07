@@ -2,8 +2,13 @@ import React from "react";
 import { Formik, Field, Form } from "formik";
 import * as Yup from 'yup';
 import '../../../styles/task.scss';
+import { useNavigate } from "react-router-dom";
 
 const LoginFormik = () => {
+  const initialCredentials = {
+    email: '', 
+    password: '',
+  }
 
   // Creamos el esquema para las validaciones.
   const loginSchema = Yup.object().shape(
@@ -18,7 +23,7 @@ const LoginFormik = () => {
     }
   )
 
-  
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -34,6 +39,7 @@ const LoginFormik = () => {
             alert(JSON.stringify(values, null, 2));
             // Guardamos los datos en local storage
             localStorage.setItem('credentials', values);
+            navigate('/');
         }}
 
       >

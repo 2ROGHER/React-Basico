@@ -3,25 +3,24 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-/**
- * Nota: Aqui es donde colocamos BOOTSTRAP para poder usarlo.
- */
+import { Provider } from 'react-redux';
+import { createAppAsyncStore, createAppStore } from './redux/config/store.config';
+import {BrowserRouter as Router } from 'react-router-dom';
+import AppSagas from './AppSagas';
+// let store = createAppStore(); 
+let asyncStore = createAppAsyncStore();
 
-import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap/scss/bootstrap'
-
-
-import { BrowserRouter as Router } from 'react-router-dom';
-import AppRoutingFinal from './AppRoutingFinal';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={asyncStore}>
     <Router>
-      {/* <App /> */}
-      <AppRoutingFinal/>
+      <React.StrictMode>
+        {/* <App /> */}
+        <AppSagas />
+      </React.StrictMode>
     </Router>
-  </React.StrictMode>
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function
